@@ -1,0 +1,167 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Admin All Albums
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-8 offset-sm-2">
+            <div class="mySearchCont rounded">
+                <!-- Search form -->
+                <form action="" class="form" method="POST" data-bs-theme="dark">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1 col-sm-8 offset-sm-1">
+                            {{ form.searchString(class="form-control", placeholder="Search songs or albums") }}
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-sm-2">
+                            <div class="d-grid">
+                                {{ form.search(class="btn btn-outline-primary") }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">   
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <div class="myRecommended rounded bg-gradient mt-4" {% if sSL|length == 0 %} hidden="True" {% endif %}>
+                <h3 class="text-capitalized text-light">Search Results</h3>
+                {% if sSL[0] == "No Search Results" %}
+                <p>No Search Results.</p>
+                {% else %}
+                <h4 class="text-captialized text-success">Albums</h4>
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Album</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Genre(s)</th>
+                            <th scope="col">Rating</th>                                    
+                            <th scope="col">Flag/View</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in sSL[1] %}
+                        <tr>
+                            <td class="text-success">{{a['a_name']}}</td>
+                            <td>{{a['a_artist']}}</td>
+                            <td>{{a['a_genres']}}</td>
+                            <td>{{a['a_rating']}}</td>
+                            <td>
+                                <a href="{{url_for('flagAlbum', aid=a['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">Flag</button>
+                                </a>
+                                <a href="{{url_for('albumDetails', aid=a['id'])}}">
+                                    <button class="btn btn-outline-warning btn-sm">View</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url_for('deleteAlbum', aid=a['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                <h4 class="text-captialized text-success">Albums</h4>
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Album</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Genre(s)</th>
+                            <th scope="col">Rating</th>                                    
+                            <th scope="col">Flag/View</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in aList %}
+                        <tr>
+                            <td class="text-success">{{a['a_name']}}</td>
+                            <td>{{a['a_artist']}}</td>
+                            <td>{{a['a_genres']}}</td>
+                            <td>{{a['a_rating']}}</td>
+                            <td>
+                                <a href="{{url_for('flagAlbum', aid=a['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">Flag</button>
+                                </a>
+                                <a href="{{url_for('albumDetails', aid=a['id'])}}">
+                                    <button class="btn btn-outline-warning btn-sm">View</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url_for('deleteAlbum', aid=a['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                <h2 class="text-captialized text-info">Flagged Albums</h2>
+                {% if aFList|length == 0 %}
+                <h4 class="text-light">No Albums Flagged.</h4>
+                {% else %}
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Album</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Genre(s)</th>
+                            <th scope="col">Rating</th>                                    
+                            <th scope="col">Flag/View</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in aFList %}
+                        <tr>
+                            <td class="text-success">{{a['a_name']}}</td>
+                            <td>{{a['a_artist']}}</td>
+                            <td>{{a['a_genres']}}</td>
+                            <td>{{a['a_rating']}}</td>
+                            <td>
+                                <a href="{{url_for('unFlagAlbum', aid=a['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">Unflag</button>
+                                </a>
+                                <a href="{{url_for('albumDetails', aid=a['id'])}}">
+                                    <button class="btn btn-outline-warning btn-sm">View</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url_for('deleteAlbum', aid=a['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

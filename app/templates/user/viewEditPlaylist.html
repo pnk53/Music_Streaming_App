@@ -1,0 +1,96 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - View/Update Playlist
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
+            <div class="myAlbumCont rounded mt-4 mb-4">
+                <h2 class="text-warning">Playlist Details</h2>
+                <div class="myExploreCont rounded mt-4 mb-4">
+                    <div class="mb-3">
+                        <h3 class="text-warning text-uppercase">{{c_p.p_name}}</h3>
+                    </div>
+                    <h5 class="text-captialized text-info">Songs</h5>
+                    {% if songsData|length == 0 %}
+                        <h6 class="text-info">No songs yet. Please add a Song.</h6>
+                    {% else %}
+                    <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                        <thead>
+                            <tr>
+                                <th scope="col">Song</th>
+                                <th scope="col">Album</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Play</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in songsData %}
+                            <tr>
+                                <td class="text-info">{{s['s_name']}}</td>
+                                <td class="text-secondary">{{s['s_album']}}</td>
+                                <td class="text-secondary">{{s['s_duration']}}</td>
+                                <td>
+                                    <a href="{{url_for('playSong',sid=s['id'])}}">
+                                        <button class="btn btn-outline-primary btn-sm">Play</button>
+                                    </a>
+                                </td>
+                                <td>
+                                <a href="{{url_for('removeFromPlaylist', pid=c_p['id'], sid=s['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Remove</button>
+                                </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                <h5 class="text-captialized text-info">All Songs List</h5>
+                {% if allSongsData|length == 0 %}
+                    <h6 class="text-info">No songs record.</h6>
+                {% else %}
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Song</th>
+                            <th scope="col">Album</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col">Play</th>
+                            <th scope="col">Add</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in allSongsData %}
+                        <tr>
+                            <td class="text-info">{{s['s_name']}}</td>
+                            <td class="text-secondary">{{s['s_album']}}</td>
+                            <td class="text-secondary">{{s['s_duration']}}</td>
+                            <td>
+                                <a href="{{url_for('playSong',sid=s['id'])}}">
+                                    <button class="btn btn-outline-primary btn-sm">Play</button>
+                                </a>
+                            </td>
+                            <td>
+                            <a href="{{url_for('addSongToPlaylist',sid=s['id'], pid=c_p['id'])}}">
+                                <button class="btn btn-outline-success btn-sm">Add</button>
+                            </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

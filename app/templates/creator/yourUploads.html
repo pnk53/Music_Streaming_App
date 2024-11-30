@@ -1,0 +1,199 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Your Uploads
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-8 offset-sm-2">
+            <div class="mySearchCont rounded">
+                <!-- Search form -->
+                <form action="" class="form" method="POST" data-bs-theme="dark">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-8 offset-md-1 col-lg-8 offset-lg-1 col-sm-8 offset-sm-1">
+                            {{ form.searchString(class="form-control", placeholder="Search songs or albums") }}
+                        </div>
+                        <div class="col-md-2 col-lg-2 col-sm-2">
+                            <div class="d-grid">
+                                {{ form.search(class="btn btn-outline-primary") }}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-10 mt-4 mb-4">
+            <div class="myCreatorPanel rounded">
+                <nav class="mySideNav flex-column navbar-dark">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('uploadAlbum')}}">Upload Album</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('uploadSong')}}">Upload Song</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{cYU}}" href="{{url_for('creatorUploads')}}">Your Uploads</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-md-11 col-lg-11 col-sm-10">
+            <div class="row">
+                <div class="col-md-11 col-lg-11 col-sm-11">
+                    <div class="myRecommended rounded bg-gradient mt-4" {% if sSL|length == 0 %} hidden="True" {% endif %}>
+                        <h3 class="text-capitalized text-light">Search Results</h3>
+                        {% if sSL[0] == "No Search Results" %}
+                        <p>No Search Results.</p>
+                        {% else %}
+                        <h4 class="text-capitalized text-info">Songs</h4>
+                        <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Song</th>
+                                    <th scope="col">Album</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">View/Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in sSL[0] %}
+                                <tr>
+                                    <td class="text-info">{{s['s_name']}}</td>
+                                    <td class="text-secondary">{{s['s_album']}}</td>
+                                    <td class="text-secondary">{{s['s_duration']}}</td>
+                                    <td><a href="{{url_for('viewUpdateSong', sid=s['id'])}}" style="text-decoration: none;">
+                                        <button class="btn btn-outline-primary btn-sm">View/Edit</button>
+                                    </a>
+                                    <a href="{{url_for('deleteSong', sid=s['id'])}}" style="text-decoration: none;">
+                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <h4 class="text-captialized text-success">Albums</h4>
+                        <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Album</th>
+                                    <th scope="col">Artist</th>
+                                    <th scope="col">Genre(s)</th>
+                                    <th scope="col">Add Song</th>                                    
+                                    <th scope="col">View/Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in sSL[1] %}
+                                <tr>
+                                    <td class="text-success">{{a['a_name']}}</td>
+                                    <td>{{a['a_artist']}}</td>
+                                    <td>{{a['a_genres']}}</td>
+                                    <td>
+                                        <a href="{{url_for('addSongAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-success mb-2">Add Song</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{url_for('viewUpdateAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-warning mb-2">View/Edit</button>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{url_for('deleteAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-danger mb-2">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11 col-lg-11 col-sm-12">
+                    <div class="myCreatorUploadsCont rounded bg-dark mt-4 mb-4">
+                        <h2 class="text-captialized text-success">Albums</h2>
+                        {% if albumsData|length == 0 %}
+                        <h2 class="text-center text-warning">No Records yet. Please upload an Album.</h2>
+                        {% else %}
+                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                            {% for a in albumsData %}
+                            <div class="col">
+                                <div class="card border-success">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-success">Album Name: {{a['a_name']}}</h5>
+                                        <h6 class="text-secondary">Artist Name: {{a['a_artist']}}</h6>
+                                        <p class="text-secondary">Genres: {{a['a_genres']}}</p>
+                                        <p class="text-secondary">Release Date: {{a['a_date']}}</p>
+                                        <a href="{{url_for('addSongAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-success mb-2">Add Song</button>
+                                        </a>
+                                        <a href="{{url_for('viewUpdateAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-warning mb-2">View/Edit</button>
+                                        </a>
+                                        <a href="{{url_for('deleteAlbum', aid=a['id'])}}">
+                                            <button class="btn btn-outline-danger mb-2">Delete</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-11 col-lg-11 col-sm-12">
+                    <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                        <h2 class="text-captialized text-info">Songs</h2>
+                        {% if songsData|length == 0 %}
+                            <h2 class="text-center text-info">No records yet. Please upload a Song.</h2>
+                        {% else %}
+                        <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Song</th>
+                                    <th scope="col">Album</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">View/Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in songsData %}
+                                <tr>
+                                    <td class="text-info">{{s['s_name']}}</td>
+                                    <td class="text-secondary">{{s['s_album']}}</td>
+                                    <td class="text-secondary">{{s['s_duration']}}</td>
+                                    <td><a href="{{url_for('viewUpdateSong', sid=s['id'])}}">
+                                        <button class="btn btn-outline-primary btn-sm">View/Edit</button>
+                                    </a>
+                                    <a href="{{url_for('deleteSong', sid=s['id'])}}">
+                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

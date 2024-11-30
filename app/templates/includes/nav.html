@@ -1,0 +1,93 @@
+<nav class="navbar navbar-expand-lg navbar-expand-md myNavbar bg-light navbar-dark sticky-top">
+    {% if current_user.is_authenticated %}
+        {% if current_user.u_userType == 'Admin' %}
+        <a class="navbar-brand" href="{{url_for('adminHome')}}">Music App</a>
+        {% else %}
+        <a href="{{url_for('userHome')}}" class="navbar-brand">Music App</a>
+        {% endif %}
+    {% endif %}    
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.u_userType == 'Admin' %}
+                            <a class="nav-link {{aH}}" aria-current="page" href="{{url_for('adminHome')}}">Home</a>
+                        {% else %}
+                        <a class="nav-link {{uH}}" aria-current="page" href="{{url_for('userHome')}}">Home</a>
+                        {% endif %}                           
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.u_userType == 'Admin' %}
+                            <a class="nav-link {{aAN}}" href="{{url_for('analytics')}}">Analytics</a>
+                        {% else %}
+                            <a href="{{url_for('exploreMusic')}}" class="nav-link {{uE}}">Explore</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.u_userType == 'Admin' %}
+                            <a class="nav-link {{aT}}" href="{{url_for('allTracks')}}">Tracks</a>
+                        {% else %}
+                            <a href="{{url_for('playlists')}}" class="nav-link {{uP}}">Playlists</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.u_userType == 'Admin' %}
+                            <a href="{{url_for('allAlbums')}}" class="nav-link {{aA}}">Albums</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.u_userType == 'Admin' %}
+                            <a href="{{url_for('allUsers')}}" class="nav-link {{aU}}">Users</a>
+                        {% endif %}
+                    {% endif %}
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    {% if current_user.is_authenticated  and current_user.u_userType != 'Admin' %}
+                    <a href="{{url_for('creatorHome')}}" class="nav-link {{cH}}">Creator Account</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item dropdown show">
+                    {% if current_user.is_authenticated %}
+                    <a href="#" class="nav-link active" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                        </svg>
+                        {{current_user.u_fName}}
+                    </a>
+                    {% endif %}
+                    <ul class="dropdown-menu myDropdown" aria-labelledby="dropdownMenu">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">My Profile</a>
+                        </li>
+                        <li class="nav-item dropdown-item-text">
+                            Username: {{current_user.u_username}}
+                        </li>
+                        <li class="dropdown-item-text nav-item">
+                            Email: {{current_user.u_email}}
+                        </li>
+                        <div class="dropdown-divider"></div>
+                        <li class="nav-item">
+                            {% if current_user.is_authenticated %}
+                            <a href="{{url_for('logout')}}" class="nav-link">Logout</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+</nav>

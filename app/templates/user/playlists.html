@@ -1,0 +1,77 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - User Playlists
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-sm-10 offset-sm-1">
+            <div class="myCreatePlaylistCont rounded mt-4 mb-4">
+                <nav>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <button class="nav-link" type="button" data-bs-toggle="collapse" data-bs-target="#addPlaylist"
+                                aria-expanded="false" aria-controls="collapseExample">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                </svg>
+                                Add Playlist
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="collapse myPlaylistForm" id="addPlaylist">
+                    <h3 class="text-center">Create Playlist</h3>
+                    <form action="" class="form" method="post" data-bs-theme="dark">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.pName(class="form-control", placeholder="Enter Playlist Name") }}
+                        </div>
+                        <div class="d-grid">
+                            {{ form.create(class="btn btn-outline-success") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="myExploreCont rounded mt-4 mb-4">
+                <h2 class="text-captialized text-warning">Your Playlists</h2>
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col"># of Tracks</th>
+                            <th scope="col">View/Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in p_list %}
+                        <tr>
+                            <td class="text-warning">{{p['p_name']}}</td>
+                            <td>{{p['p_noOfTracks']}}</td>
+                            <td>
+                                <a href="{{url_for('viewEditPlaylist', vEId=p['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">View/Edit</button>
+                                </a>
+                            </td>
+                            <td>
+                                {% if not p.p_name=="Liked Songs" and not p.p_name=="Disliked Songs" %}
+                                <a href="{{url_for('deletePlaylist', pid=p['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Album Details
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-sm-8 offset-sm-2">
+            <div class="myAlbumCont rounded mt-4 mb-4">
+                <div class="d-flex">
+                    <h2 class="text-success mb-3">Album Details</h2>
+                    <div class="myRating ms-auto d-inline">
+                        <form action="" class="form" data-bs-theme="dark" method="post" {% if current_user.u_userType=="Admin" %} hidden="True" {% endif %}>
+                            <div class="input-group mb-3">
+                                {{ form.hidden_tag() }}
+                                <div class="mb-3 me-3">
+                                    {{ form.currentRating(class="form-control", placeholder="1-10", id="myRate") }}
+                                </div>
+                                <div class="">
+                                    {{ form.rate(class="btn btn-outline-light") }}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h5>Album Name: <p class="text-secondary d-inline">{{a.a_name}}</p></h5>
+                </div>
+                <div class="mb-3">
+                    <h5>Album Artist: <p class="text-secondary d-inline">{{a.a_artist}}</p></h5>
+                </div>
+                <div class="mb-3">
+                    <h5>Genres: <p class="text-secondary d-inline">{{a.a_genres}}</p></h5>
+                </div>
+                <div class="mb-3">
+                    <h5>Release Date: <p class="text-secondary d-inline">{{a.a_date}}</p></h5>
+                </div>
+                <div class="mb-3">
+                    <h5>Average Rating: <p class="text-secondary d-inline">{% if a.a_rating == 0 %}NA{% else %} {{a.a_rating}} {% endif %}</p></h5>
+                </div>
+                <h5 class="text-captialized text-info">Songs</h5>
+                    {% if songsData|length == 0 %}
+                        <h5 class="text-center text-info">No records yet. Stay tuned.</h5>
+                    {% else %}
+                    <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                        <thead>
+                            <tr>
+                                <th scope="col">Song</th>
+                                <th scope="col">Album</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Play/View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in songsData %}
+                            <tr>
+                                <td class="text-info">{{s['s_name']}}</td>
+                                <td class="text-secondary">{{s['s_album']}}</td>
+                                <td class="text-secondary">{{s['s_duration']}}</td>
+                                <td><a href="{{url_for('playSong',sid=s['id'])}}" style="text-decoration: none;" {% if current_user.u_userType=="Admin" %} hidden="True" {% endif %}>
+                                    <button class="btn btn-outline-success btn-sm">Play</button>
+                                </a>
+                                <a href="{{url_for('songDetails',sid=s['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-info btn-sm">View</button>
+                                </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

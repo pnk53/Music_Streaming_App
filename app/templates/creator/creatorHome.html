@@ -1,0 +1,107 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Creator Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    {% if current_user.is_authenticated  and current_user.u_userType == 'Listener' %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-sm-10 offset-sm-1">
+            <h3 class="text-center mt-4">You don't have a creator's account.</h3>
+            <h5 class="text-center">Want to be a Creator ? Please Sign up.</h5>
+            <div class="myLoginCont rounded">
+                    <div class="mb-3">
+                        <h2 class="text-center text-uppercase">Creator Sign Up</h2>
+                    </div>
+                    <!-- Creator Sign up form -->
+                    <form action="" class="form" method="POST" data-bs-theme="dark">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.register.label(class="form-label") }}
+                            {{ form.register(class="form-select") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.confirmPassword(class="form-control", placeholder="Confirm Your Password", type="password") }}
+                        </div>
+                        <div class="d-grid">
+                            {{ form.signUp(class="btn btn-outline-success") }}
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-10 mt-4 mb-4">
+            <div class="myCreatorPanel rounded">
+                <nav class="mySideNav flex-column navbar-dark">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link {{cUA}}" href="{{url_for('uploadAlbum')}}">Upload Album</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{cUS}}" href="{{url_for('uploadSong')}}">Upload Song</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{cYU}}" href="{{url_for('creatorUploads')}}">Your Uploads</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-md-11 col-lg-11 col-sm-10 mt-4 mb-4">
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-primary bg-gradient rounded">
+                        <h2 class="text-center">Total Albums Uploaded</h2>
+                        <h1 class="text-center mt-3">{{aCount}}</h1>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-info bg-gradient rounded">
+                        <h2 class="text-center">Total Songs Uploaded</h2>
+                        <h1 class="text-center mt-3">{{sCount}}</h1>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-warning bg-gradient rounded">
+                        <h2 class="text-center">Your Average Rating</h2>
+                        <h1 class="text-center mt-3">{{avg}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-10 mt-4">
+                    <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                        <h4 class="text-info">Your Top Songs</h4>
+                        <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Song</th>
+                                    <th scope="col">Album</th>
+                                    <th scope="col">Average Rating</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for s in tSongs %}
+                                <tr>
+                                    <td class="text-info">{{s.s_name}}</td>
+                                    <td>{{s.s_album}}</td>
+                                    <td>{{s.s_rating}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

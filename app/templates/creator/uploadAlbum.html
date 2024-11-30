@@ -1,0 +1,55 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Create Album
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-10 mt-4 mb-4">
+            <div class="myCreatorPanel rounded">
+                <nav class="mySideNav flex-column navbar-dark">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link {{cUA}}" href="{{url_for('uploadAlbum')}}">Upload Album</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('uploadSong')}}">Upload Song</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('creatorUploads')}}">Your Uploads</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-2 col-lg-6 offset-lg-2 col-sm-6 offset-sm-2">
+            <div class="myLoginCont rounded">
+                <!-- Upload Album form -->
+                <h2 class="text-center text-success">Upload Album</h2>
+                <div class="mb-3">
+                    <input type="text" class="form-control" data-bs-theme="dark" value="{{artist}}" disabled>
+                </div>
+                <form action="" method="post" data-bs-theme="dark">
+                    {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.aName(class="form-control", placeholder="Enter Album Name") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.aGenres(class="form-control", placeholder="Enter Genres") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.aDate(class="form-control", placeholder="Enter Release Date", type="date") }}
+                        </div>
+                        <div class="d-grid">
+                            {{ form.create(class="btn btn-outline-success") }}
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

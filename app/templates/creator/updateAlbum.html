@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - View/Update Album
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1 col-lg-1 col-sm-10 mt-4 mb-4">
+            <div class="myCreatorPanel rounded">
+                <nav class="mySideNav flex-column navbar-dark">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('uploadAlbum')}}">Upload Album</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('uploadSong')}}">Upload Song</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{url_for('creatorUploads')}}">Your Uploads</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-md-6 offset-md-2 col-lg-6 offset-lg-2 col-sm-10 offset-sm-1">
+            <div class="myAlbumCont rounded mt-4 mb-4">
+                <h3>Album Details
+                    <a href="{{url_for('updateAlbum',aid=a['id'])}}" {% if current_user.u_userType=="Admin" %} hidden="True" {% endif %} >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                    </a>
+                </h3>
+                <div class="mb-3">
+                    <input type="text" class="form-control" data-bs-theme="dark" value="{{a.a_artist}}" disabled>
+                </div>
+                <form action="" method="post" data-bs-theme="dark">
+                    {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.aName(class="form-control", placeholder="Enter Album Name", value=a.a_name, disabled=s) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.aGenres(class="form-control", placeholder="Enter Genres", value=a.a_genres, disabled=s) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.aDate(class="form-control", placeholder="Enter Release Date", type="date", value=a.a_date, disabled=s) }}
+                        </div>
+                        <div class="d-grid">
+                            {{ form.create(class="btn btn-success", value="Update Album", disabled=s) }}
+                        </div>
+                </form>
+                <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                    <h2 class="text-captialized text-info">Songs</h2>
+                    {% if songsData|length == 0 %}
+                        <h2 class="text-center text-info">No records yet. Please upload a Song.</h2>
+                    {% else %}
+                    <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                        <thead>
+                            <tr>
+                                <th scope="col">Song</th>
+                                <th scope="col">Album</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">View/Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in songsData %}
+                            <tr>
+                                <td class="text-info">{{s['s_name']}}</td>
+                                <td class="text-secondary">{{s['s_album']}}</td>
+                                <td class="text-secondary">{{s['s_duration']}}</td>
+                                <td><a href="{{url_for('viewUpdateSong', sid=s['id'])}}">
+                                    <button class="btn btn-outline-primary btn-sm">View/Edit</button>
+                                </a>
+                                <a href="#">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

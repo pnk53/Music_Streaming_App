@@ -1,0 +1,95 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Admin Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-sm-10 mt-4 mb-4">
+            <div class="myAHomeCont bg-dark bg-gradient rounded">
+                <div class="row myAdminReqCont">
+                    <h2 class="">Pending Admin request</h2>
+                {% if pendingAReq|length == 0 %}
+                <h6 class="text-danger">No requests pending.</h6>
+                {% else %}
+                {% for p in pendingAReq %}
+                <div class="card-group">
+                    <div class="card myApproveCard border-dark mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{p["u_fName"]}} {{p["u_lName"]}}</h5>
+                            <h6 class="card-subtitle text-secondary">{{p["u_email"]}}</h6>
+                            <a href="{{url_for('approveRequest', username=p['u_username'])}}"><button class="btn btn-outline-success mt-2 mb-2">Approve</button></a>
+                            <a href="{{url_for('rejectRequest', username=p['u_username'])}}"><button class="btn btn-outline-danger mt-2 mb-2">Reject</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <div class="dropdown-divider mt-3 mb-2"></div>
+                <div class="row myCreatorReqCont">
+                    <h2 class="">Pending Creator request</h2>
+                {% if pendingCReq|length == 0 %}
+                <h6 class="text-danger">No requests pending.</h6>
+                {% else %}
+                {% for p in pendingCReq %}
+                <div class="card-group">
+                    <div class="card myApproveCard border-dark mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{p["u_fName"]}} {{p["u_lName"]}}</h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{p["u_email"]}}</h6>
+                            <a href="{{url_for('approveRequest', username=p['u_username'])}}"><button class="btn btn-outline-success mt-2 mb-2">Approve</button></a>
+                            <a href="{{url_for('rejectRequest', username=p['u_username'])}}"><button class="btn btn-outline-danger mt-2 mb-2">Reject</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8 col-lg-8 col-sm-10 mt-4 mb-4">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="myStatCont bg-info bg-gradient rounded">
+                        <h2 class="text-center">Normal Users</h2>
+                        <h1 class="text-center mt-3">{{uCount}}</h1>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6">
+                    <div class="myStatCont bg-primary bg-gradient rounded">
+                        <h2 class="text-center">Creators</h2>
+                        <h1 class="text-center mt-3">{{cCount}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-success bg-gradient rounded">
+                        <h2 class="text-center">Tracks</h2>
+                        <h1 class="text-center">{{sCount}}</h1>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-warning bg-gradient rounded">
+                        <h2 class="text-center">Albums</h2>
+                        <h1 class="text-center">{{aCount}}</h1>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="myStatCont bg-secondary bg-gradient rounded">
+                        <h2 class="text-center">Genre</h2>
+                        <h1 class="text-center">{{gCount}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

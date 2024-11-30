@@ -1,0 +1,95 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Admin All Users
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                <h4 class="text-captialized text-primary">Users</h4>
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>                                    
+                            <th scope="col">Flag</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in uList %}
+                        <tr>
+                            <td class="text-primary">{{u['u_fName']}}</td>
+                            <td class="text-primary">{{u['u_lName']}}</td>
+                            <td>{{u['u_username']}}</td>
+                            <td>{{u['u_email']}}</td>
+                            <td>
+                                <a href="{{url_for('flagUser', uid=u['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">Flag</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url_for('deleteUser', uid=u['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <div class="myExploreCont rounded bg-dark mt-4 mb-4">
+                <h4 class="text-captialized text-primary">Flagged Users</h4>
+                {% if uFList|length == 0 %}
+                <h5 class="text-light">No Flagged users.</h5>
+                {% else %}
+                <table class="table table-dark table-hover rounded table-responsive{-sm|-md|-lg}">
+                    <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>                                    
+                            <th scope="col">Flag</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in uFList %}
+                        <tr>
+                            <td class="text-primary">{{u['u_fName']}}</td>
+                            <td class="text-primary">{{u['u_lName']}}</td>
+                            <td>{{u['u_username']}}</td>
+                            <td>{{u['u_email']}}</td>
+                            <td>
+                                <a href="{{url_for('unFlagUser', uid=u['id'])}}" style="text-decoration: none;">
+                                    <button class="btn btn-outline-warning btn-sm">Unflag</button>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{url_for('deleteUser', uid=u['id'])}}">
+                                    <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

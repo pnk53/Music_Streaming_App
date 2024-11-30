@@ -1,0 +1,117 @@
+<div class="myMusicPlayer rounded mt-4 mb-4">
+    <nav>
+        <ul class="navbar-nav">
+            <li class="nav-item ms-1">
+                <button class="nav-link" type="button" data-bs-toggle="collapse" data-bs-target="#lyrics"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-text-paragraph" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5m4-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5"/>
+                    </svg>
+                    Lyrics
+                </button>
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item me-1">
+                <button class="nav-link" type="button" data-bs-toggle="collapse" data-bs-target="#related"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-music-note-list" viewBox="0 0 16 16">
+                        <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2" />
+                        <path fill-rule="evenodd" d="M12 3v10h-1V3z" />
+                        <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1z" />
+                        <path fill-rule="evenodd"
+                            d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5" />
+                    </svg>
+                    Related
+                </button>
+            </li>
+        </ul>
+    </nav>
+    <div class="parent">
+        <div class="item1">
+            <div class="myAlbum rounded d-flex mt-2 mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" fill="currentColor"
+                    class="bi bi-disc m-auto" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path
+                        d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0M8 4a4 4 0 0 0-4 4 .5.5 0 0 1-1 0 5 5 0 0 1 5-5 .5.5 0 0 1 0 1m4.5 3.5a.5.5 0 0 1 .5.5 5 5 0 0 1-5 5 .5.5 0 0 1 0-1 4 4 0 0 0 4-4 .5.5 0 0 1 .5-.5" />
+                </svg>
+            </div>
+            <div class="mySongDetails">
+                <h2 class="text-center">{{song}}</h2>
+                <h5 class="text-center text-secondary">{{artist}}</h5>
+                <audio src="{{cPath}}" type="audio/mpeg" id="song" autoplay="0"></audio>
+                <input type="range" value="0" id="progress" class="mt-3">
+            </div>
+            <div class="myControls mt-3">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff"
+                        class="bi bi-skip-backward-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 3.5A.5.5 0 0 0 0 4v8a.5.5 0 0 0 1 0V8.753l6.267 3.636c.54.313 1.233-.066 1.233-.697v-2.94l6.267 3.636c.54.314 1.233-.065 1.233-.696V4.308c0-.63-.693-1.01-1.233-.696L8.5 7.248v-2.94c0-.63-.692-1.01-1.233-.696L1 7.248V4a.5.5 0 0 0-.5-.5" />
+                    </svg>
+                </div>
+                <div onclick="play()" id="controlIcon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#302b63" id="playButton"
+                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path
+                            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                    </svg>
+                </div>
+                <div onclick="pause()" id="controlIcon2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" id="pauseButton"
+                        class="bi bi-play-fill" viewBox="0 0 16 16">
+                        <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5m5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5" />
+                    </svg>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff"
+                        class="bi bi-skip-forward-fill" viewBox="0 0 16 16">
+                        <path
+                            d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.753l-6.267 3.636c-.54.313-1.233-.066-1.233-.697v-2.94l-6.267 3.636C.693 12.703 0 12.324 0 11.693V4.308c0-.63.693-1.01 1.233-.696L7.5 7.248v-2.94c0-.63.693-1.01 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="item2">
+            <div class="collapse myLyrics rounded" id="lyrics">
+                {% if songL == None %}
+                    <h5 class="text-center text-light">No Lyrics.</h5>
+                {% else %}
+                <p><pre>{{songL}}</pre></p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="item2">
+            <div class="collapse myLyrics rounded" id="related">
+                {% if related == None %}
+                    <h5 class="text-center text-light">No Related.</h5>
+                {% else %}
+                    <table class="myRelatedTable table table-hover rounded table-responsive{-sm|-md|-lg}">
+                        <thead>
+                            <tr>
+                                <th scope="col">Song</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Play</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in related %}
+                            <tr>
+                                <td class="text-light">{{s['s_name']}}</td>
+                                <td class="text-light">{{s['s_duration']}}</td>
+                                <td>
+                                    <a href="{{url_for('playSong',sid=s['id'])}}" style="text-decoration: none;">
+                                        <button class="btn btn-outline-primary btn-sm">Play</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

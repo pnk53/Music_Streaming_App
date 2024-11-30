@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+Music App - Admin Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-sm-10 offset-sm-1">
+            <h2 class="text-center mt-2">Songs Plot</h2>
+            <img src="{{url_for('Chart')}}" alt="chart" class="img-fluid rounded mb-5">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
